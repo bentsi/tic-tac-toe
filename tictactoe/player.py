@@ -25,8 +25,15 @@ class HumanPlayer(Player):
 
     def move(self):
         symbol = self._symbol_class.__name__
-        loc = input(f"[{self.name}] Where to set {symbol}? (use , to separate) ")
-        x, y = loc.split(",")
+        ok = True
+        while ok:
+            try:
+                loc = input(f"[{self.name}] Where to set {symbol}? (use , to separate) ")
+                x, y = loc.split(",")
+                ok = False
+            except ValueError:
+                ok = True
+                print("Enter the correct arguments(two arguments)")
         return self._symbol_class(x=x, y=y)
 
 

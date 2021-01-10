@@ -38,8 +38,18 @@ class Game:
 
     def run(self):
         for player in cycle(self._players):
-            move = player.move()
-            self._board.board = move
+            ok = True
+            while ok:
+                try:
+                    move = player.move()
+                    self._board.board = move
+                    ok = False
+                except IndexError:
+                    print("Values out of range(0-2)")
+                    ok = True
+                except ValueError:
+                    print("Invalid values")
+                    ok = True
             print(self._board)
             if  self._check():
                 print(f"{player.name} win")
