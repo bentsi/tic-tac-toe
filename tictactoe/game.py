@@ -16,25 +16,25 @@ class Game:
         for line in self._board.board:
             if line[0] == line[1] == line[2]:
                 if line[0] != " ":
-                    return True
+                    return True, None
         # Vertical checking
         for i in range(3):
             first_vertical = self._board.board[0][i]
             second_vertical = self._board.board[1][i]
             third_vertical = self._board.board[2][i]
             if first_vertical == second_vertical == third_vertical != " ":
-                return True
+                return True, None
         # Diagonal checking
-        if self._board.board[0][0] == self._board.board[1][1] == self._board.board[2][2]:
-            return True
-        if self._board.board[0][2] == self._board.board[1][1] == self._board.board[2][0]:
-            return True
+        if self._board.board[0][0] == self._board.board[1][1] == self._board.board[2][2] != " ":
+            return True, None
+        if self._board.board[0][2] == self._board.board[1][1] == self._board.board[2][0] != " ":
+            return True, None
         # Checking empty cells
         for line in self._board.board:
             for element in line:
                 if element == " ":
-                    return False
-        return True
+                    return False, None
+        return True, True
 
     def run(self):
         for player in cycle(self._players):
@@ -54,6 +54,10 @@ class Game:
                     print("Invalid values")
                     ok = True
             print(self._board)
-            if  self._check():
+            win, drawn = self._check()
+            if  win:
+                if drawn:
+                    print("Drawn")
+                    break
                 print(f"{player.name} win")
                 break
