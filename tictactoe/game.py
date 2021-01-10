@@ -42,6 +42,9 @@ class Game:
             while ok:
                 try:
                     move = player.move()
+                    while self._board.board[int(move.x)][int(move.y)] != " ":
+                        print("This cell is occupied")
+                        move = player.move()
                     self._board.board = move
                     ok = False
                 except IndexError:
