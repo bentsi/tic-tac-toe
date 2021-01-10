@@ -38,7 +38,7 @@ class Board:
 
     @board.setter
     def board(self, val):
-        self._board[val.x][val.y] = str(val)
+        self._board[int(val.x)][int(val.y)] = str(val.__class__.__name__)
 
     def __str__(self):
         """
