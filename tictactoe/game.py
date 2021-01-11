@@ -1,5 +1,6 @@
 from tictactoe.board import Board
 from itertools import cycle
+from time import sleep
 
 
 class Game:
@@ -36,28 +37,50 @@ class Game:
                     return False, None
         return True, True
 
+    def print_score(self):
+        print("\nThe score of the game")
+        print(self._players[0].name, "---", self._players[0].win)
+        print(self._players[1].name, "---", self._players[1].win)
+
     def run(self):
         for player in cycle(self._players):
             ok = True
-            while ok:
-                try:
-                    move = player.move()
-                    while self._board.board[int(move.x)][int(move.y)] != " ":
-                        print("This cell is occupied")
+            if player.__class__.__name__ == "HumanPlayer":
+                while ok:
+                    try:
                         move = player.move()
-                    self._board.board = move
-                    ok = False
-                except IndexError:
-                    print("Values out of range(0-2)")
-                    ok = True
-                except ValueError:
-                    print("Invalid values")
-                    ok = True
+                        while self._board.board[int(move.x)][int(move.y)] != " ":
+                            print("This cell is occupied")
+                            move = player.move()
+                        self._board.board = move
+                        ok = False
+                    except IndexError:
+                        print("Values out of range(0-2)")
+                        ok = True
+                    except ValueError:
+                        print("Invalid values")
+                        ok = True
+            else:
+                sleep(1)
+                move = player.move()
+                while self._board.board[int(move.x)][int(move.y)] != " ":
+                    move = player.move()
+                self._board.board = move
+                print(f"{player.name} went to the coordinates({move.x}, {move.y})")
             print(self._board)
             win, drawn = self._check()
-            if  win:
+            if win:
                 if drawn:
                     print("Drawn")
-                    break
-                print(f"{player.name} win")
+                else:
+                    print(f"{player.name} win")
+                    print()
+                    player.win += 1
+                self.print_score()
+                play_again = input("\nAgain?(yes or no)")
+                while play_again != "yes" and play_again != "no":
+                    play_again = input("Again?(yes or no)")
+                if play_again == "yes":
+                    self.run()
                 break
+
