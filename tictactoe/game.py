@@ -9,6 +9,14 @@ class Game:
         self._players = players
 
     @property
+    def board(self):
+        return self._board
+
+    @board.setter
+    def board(self, val):
+        self._board = val
+
+    @property
     def players(self):
         return self._players
 
@@ -81,6 +89,7 @@ class Game:
                 while play_again != "yes" and play_again != "no":
                     play_again = input("Again?(yes or no)")
                 if play_again == "yes":
+                    self.board = Board()
                     self.run()
                 break
 
