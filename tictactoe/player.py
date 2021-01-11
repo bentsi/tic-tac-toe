@@ -1,6 +1,5 @@
+from random import randint
 from abc import ABC, abstractmethod
-
-from tictactoe.board import X
 
 
 class Player(ABC):
@@ -15,25 +14,58 @@ class Player(ABC):
 
 
 class HumanPlayer(Player):
+
     def __init__(self, name, symbol_class):
         self._name = name
         self._symbol_class = symbol_class
+        self._win = 0
+
+    @property
+    def name(self):
+        return self._name
+    @property
+    def win(self):
+        return self._win
+
+    @win.setter
+    def win(self, val):
+        self._win = val
+
+    def move(self):
+        symbol = self._symbol_class.__name__
+        ok = True
+        x = y =None
+        while ok:
+            try:
+                loc = input(f"[{self.name}] Where to set {symbol}? (use , to separate) ")
+                x, y = loc.split(",")
+                ok = False
+            except ValueError:
+                ok = True
+                print("Enter the correct arguments(two arguments)")
+        return self._symbol_class(x=x, y=y)
+
+
+class RoboticPlayer(Player):
+
+    def __init__(self, name, symbol_class):
+        self._name = name
+        self._symbol_class = symbol_class
+        self._win = 0
 
     @property
     def name(self):
         return self._name
 
+    @property
+    def win(self):
+        return self._win
+
+    @win.setter
+    def win(self, val):
+        self._win = val
+
     def move(self):
-        symbol = self._symbol_class.__name__
-        loc = input(f"[{self.name}] Where to set {symbol}? (use , to separate) ")
-        x, y = loc.split(",")
+        x = randint(0, 2)
+        y = randint(0, 2)
         return self._symbol_class(x=x, y=y)
-
-
-class RoboticPlayer(Player):
-    pass
-
-
-if __name__ == '__main__':
-    player = HumanPlayer(name="Fedor", symbol_class=X)
-    print(player.move())
