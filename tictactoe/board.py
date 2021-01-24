@@ -1,30 +1,29 @@
 class Point:
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self._x = int(x)
+        self._y = int(y)
+
+    @property
+    def x(self):
+        return self._x
+
+    @property
+    def y(self):
+        return self._y
 
     def __str__(self):
-        return f"[{self.x},{self.y}]"
+        return self.__class__.__name__
 
 
 class X(Point):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-
-    def __str__(self):
-        return "X" + super().__str__()
+    pass
 
 
 class O(Point):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-
-    def __str__(self):
-        return "O" + super().__str__()
+    pass
 
 
 class Board:
-
     def __init__(self):
         self._board = [
             [" ", " ", " "],
