@@ -24,7 +24,6 @@ class O(Point):
 
 
 class Board:
-
     def __init__(self):
         self._board = [
             [" ", " ", " "],
@@ -38,7 +37,9 @@ class Board:
 
     @board.setter
     def board(self, val):
-        self._board[val.x][val.y] = str(val)
+        x = int(val[1]) - 1
+        y = int(val[2]) - 1
+        self._board[x][y] = val[0]
 
     def __str__(self):
         """
@@ -50,3 +51,13 @@ class Board:
         for line in self._board:
             board_str += "| " + " | ".join(line) + " |\n"
         return board_str
+
+# if __name__ == "__main__":
+#     board = Board()
+#     print(board)
+#
+#     x = X(x=1, y=1)
+#     print(X.__name__)
+
+
+
